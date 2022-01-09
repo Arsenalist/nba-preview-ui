@@ -44,11 +44,11 @@ function App() {
   const displayTeamData = (lineup: Lineup) => {
     return <div id={"lineup"}>
       <div>
-      PF: {lineup.PF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}<br/>
-      SF: {lineup.SF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}<br/>
-      C: {lineup.C.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}<br/>
-      PG: {lineup.PG.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}<br/>
-      SG: {lineup.SG.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}<br/>
+        {lineup.PF && <div>PF: {lineup.PF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}<br/>
+        {lineup.SF && <div>SF: {lineup.SF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}<br/>
+        {lineup.C && <div>C: {lineup.C.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}<br/>
+        {lineup.PG && <div>PG: {lineup.PG.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}<br/>
+        {lineup.SG && <div>SG: {lineup.SG.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}<br/>
       </div>
     </div>
   }
