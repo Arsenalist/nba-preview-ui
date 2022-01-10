@@ -37,3 +37,22 @@
     transform: rotate(360deg);
   }
 }
+
+
+.lineup-player, .injury-player  {
+  border: 1px solid #ccc;
+  border-width: 0 0 1px 0;
+  padding: 5px;
+}
+.injury-description {
+  display: block;
+  font-size: 0.8em;
+}
+.copy-to-clipboard {
+  background: #c41141;
+  color: white;
+  border: none;
+  padding: 5px;
+  display: block;
+  margin: 10px 0;
+}
