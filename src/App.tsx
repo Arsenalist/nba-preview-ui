@@ -75,7 +75,7 @@ function App() {
     const lineup = teamPreview.lineup_by_position;
     const injury_report = teamPreview.injury_report;
     return <div id={"lineup"}>
-      <h3>{teamPreview.injury_report.team_name} Probable Lineups & Injuries</h3>
+      <h3>{teamPreview.injury_report.team_name} Lineups & Injuries</h3>
       <div>
         <h4>Probable Lineup</h4>
         {lineup.PF && <div className={"lineup-player"}><span className={"lineup-position"}>PF:</span> {lineup.PF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}
