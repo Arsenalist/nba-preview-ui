@@ -43,6 +43,8 @@ function App() {
 
   const [teams, setTeams] = useState<Team[]>([]);
   const [teamLineup, setTeamLineup] = useState<TeamPreview | undefined>(undefined);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const [opponentTeamLineup, setOpponentLineup] = useState<TeamPreview | undefined>(undefined);
   const resultsRef = useRef(null);
 
@@ -53,22 +55,22 @@ function App() {
   }, [])
 
   const loadPreview = (e: any) => {
+    setLoading(true);
+    setMessage("");
     axios.get('https://espnapi.raptorsrepublic.com/nba/upcoming-probable-lineup/' + e.target.value).then((r) => {
+      setLoading(false);
       setTeamLineup(r.data[0])
       setOpponentLineup(r.data[1])
+    }).catch((r) => {
+      setLoading(false);
+      setMessage("There was a problem. Pehaps one of the teams is currently playing a game? Report this to Zarar in any case.");
     })
   }
 
   const copyToClipboard = () => {
-    console.log("a")
-    console.log(resultsRef.current);
-    console.log("b")
     if (resultsRef.current) {
-      console.log("b2")
       navigator.clipboard.writeText((resultsRef.current as any).innerHTML);
     }
-
-    console.log("d")
   }
 
   const displayTeamData = (teamPreview: TeamPreview) => {
@@ -106,6 +108,8 @@ function App() {
           <option key={t.id} value={t.id}>{t.full_name}</option>
       ))}
       </select>
+      {loading && <div>Hold up, doing a lot of gymnastics in the background...</div>}
+      {message && <div>{message}</div>}
       {teamLineup && opponentTeamLineup && <button className={"copy-to-clipboard"} onClick={copyToClipboard}>Copy to Clipboard</button>}
       <div ref={resultsRef}>
         <div id={"team"}>
