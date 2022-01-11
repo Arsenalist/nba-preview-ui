@@ -90,7 +90,7 @@ function App() {
       setOdds(r.data.odds)
     }).catch((r) => {
       setLoading(false);
-      setMessage("There was a problem. Pehaps one of the teams is currently playing a game? Report this to Zarar in any case.");
+      setMessage("There was a problem. Perhaps one of the teams is currently playing a game? Please report this incident.");
     })
   }
 
