@@ -2,6 +2,22 @@ import React, { useEffect, useRef, useState} from 'react';
 import './App.css';
 import axios from "axios";
 
+interface ResponsePayload {
+  team: TeamPreview,
+  opponent: TeamPreview,
+  odds: GameOdds
+}
+
+interface GameOdds {
+  home_team: String,
+  away_team: String,
+  home_spread: String,
+  away_spread: String,
+  home_moneyline: String,
+  away_moneyline: String,
+  over_under: String
+}
+
 interface Team {
   id: string
   full_name: string
@@ -42,6 +58,7 @@ interface TeamPreview {
 
 interface GameResult {
   opponent: string,
+  opponent_logo_link: string,
   result: string,
   score: string,
   box_score_link: string
@@ -51,13 +68,14 @@ function App() {
 
   const [teams, setTeams] = useState<Team[]>([]);
   const [teamLineup, setTeamLineup] = useState<TeamPreview | undefined>(undefined);
+  const [odds, setOdds] = useState<GameOdds | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [opponentTeamLineup, setOpponentLineup] = useState<TeamPreview | undefined>(undefined);
   const resultsRef = useRef(null);
 
   useEffect(() => {
-    axios.post('https://espnapi.raptorsrepublic.com/teams').then((r) => {
+    axios.post('http://localhost:8000/teams').then((r) => {
       setTeams(r.data)
     })
   }, [])
@@ -65,10 +83,11 @@ function App() {
   const loadPreview = (e: any) => {
     setLoading(true);
     setMessage("");
-    axios.get('https://espnapi.raptorsrepublic.com/nba/upcoming-probable-lineup/' + e.target.value).then((r) => {
+    axios.get<ResponsePayload>('http://localhost:8000/nba/upcoming-probable-lineup/' + e.target.value).then((r) => {
       setLoading(false);
-      setTeamLineup(r.data[0])
-      setOpponentLineup(r.data[1])
+      setTeamLineup(r.data.team)
+      setOpponentLineup(r.data.opponent)
+      setOdds(r.data.odds)
     }).catch((r) => {
       setLoading(false);
       setMessage("There was a problem. Pehaps one of the teams is currently playing a game? Report this to Zarar in any case.");
@@ -137,6 +156,40 @@ function App() {
         <div id={"opponent"}>
           {opponentTeamLineup && displayTeamData(opponentTeamLineup)}
         </div>
+        <div>
+          <h3>Betting Lines</h3>
+          <table className={"odds"}>
+            <tr>
+              <th>
+                {odds?.away_team}
+              </th>
+              <th></th>
+              <th>
+                {odds?.home_team}
+              </th>
+
+            </tr>
+            <tbody>
+            <tr>
+              <td>{odds?.away_spread}</td>
+              <td>Spread</td>
+              <td>{odds?.home_spread}</td>
+            </tr>
+            <tr>
+              <td>{odds?.away_moneyline}</td>
+              <td>Money Line</td>
+              <td>{odds?.home_moneyline}</td>
+            </tr>
+            <tr>
+              <td colSpan={3}>
+                <div>Over/Under</div>
+                <div>{odds?.over_under}</div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </div>
     </div>
   );
