@@ -75,7 +75,7 @@ function App() {
   const resultsRef = useRef(null);
 
   useEffect(() => {
-    axios.post('http://localhost:8000/teams').then((r) => {
+    axios.post('https://espnapi.raptorsrepublic.com/teams').then((r) => {
       setTeams(r.data)
     })
   }, [])
@@ -83,7 +83,7 @@ function App() {
   const loadPreview = (e: any) => {
     setLoading(true);
     setMessage("");
-    axios.get<ResponsePayload>('http://localhost:8000/nba/upcoming-probable-lineup/' + e.target.value).then((r) => {
+    axios.get<ResponsePayload>('https://espnapi.raptorsrepublic.com/nba/upcoming-probable-lineup/' + e.target.value).then((r) => {
       setLoading(false);
       setTeamLineup(r.data.team)
       setOpponentLineup(r.data.opponent)
@@ -98,6 +98,43 @@ function App() {
     if (resultsRef.current) {
       navigator.clipboard.writeText((resultsRef.current as any).innerHTML);
     }
+  }
+
+  const displayOdds = (odds: GameOdds) => {
+    return         <div>
+      <h3>Betting Lines</h3>
+      <table className={"odds"}>
+        <tr>
+          <th>
+            {odds?.away_team}
+          </th>
+          <th></th>
+          <th>
+            {odds?.home_team}
+          </th>
+
+        </tr>
+        <tbody>
+        <tr>
+          <td>{odds?.away_spread}</td>
+          <td>Spread</td>
+          <td>{odds?.home_spread}</td>
+        </tr>
+        <tr>
+          <td>{odds?.away_moneyline}</td>
+          <td>Money Line</td>
+          <td>{odds?.home_moneyline}</td>
+        </tr>
+        <tr>
+          <td colSpan={3}>
+            <div>Over/Under</div>
+            <div>{odds?.over_under}</div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
   }
 
   const displayTeamData = (teamPreview: TeamPreview) => {
@@ -156,40 +193,7 @@ function App() {
         <div id={"opponent"}>
           {opponentTeamLineup && displayTeamData(opponentTeamLineup)}
         </div>
-        <div>
-          <h3>Betting Lines</h3>
-          <table className={"odds"}>
-            <tr>
-              <th>
-                {odds?.away_team}
-              </th>
-              <th></th>
-              <th>
-                {odds?.home_team}
-              </th>
-
-            </tr>
-            <tbody>
-            <tr>
-              <td>{odds?.away_spread}</td>
-              <td>Spread</td>
-              <td>{odds?.home_spread}</td>
-            </tr>
-            <tr>
-              <td>{odds?.away_moneyline}</td>
-              <td>Money Line</td>
-              <td>{odds?.home_moneyline}</td>
-            </tr>
-            <tr>
-              <td colSpan={3}>
-                <div>Over/Under</div>
-                <div>{odds?.over_under}</div>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-
+        {odds && displayOdds(odds)}
       </div>
     </div>
   );
