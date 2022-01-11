@@ -39,15 +39,29 @@
 }
 
 
-.lineup-player, .injury-player  {
+.lineup-player, .injury-player, .previous-result  {
   border: 1px solid #ccc;
   border-width: 0 0 1px 0;
   padding: 5px;
 }
+
+.result-indicator-W {
+  color: green;
+  font-weight: bold;
+}
+
+.result-indicator-L {
+  color: red;
+  font-weight: bold;
+}
+
 .injury-description {
   display: block;
   font-size: 0.8em;
 }
+
+.previous-result .opponent {font-weight: bold;}
+
 .copy-to-clipboard {
   background: #c41141;
   color: white;

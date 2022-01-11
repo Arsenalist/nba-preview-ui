@@ -36,7 +36,15 @@ interface InjuryReport {
 
 interface TeamPreview {
   injury_report: InjuryReport,
-  lineup_by_position: Lineup
+  lineup_by_position: Lineup,
+  previous_results: GameResult[]
+}
+
+interface GameResult {
+  opponent: string,
+  result: string,
+  score: string,
+  box_score_link: string
 }
 
 function App() {
@@ -76,8 +84,19 @@ function App() {
   const displayTeamData = (teamPreview: TeamPreview) => {
     const lineup = teamPreview.lineup_by_position;
     const injury_report = teamPreview.injury_report;
+    const previous_results = teamPreview.previous_results;
     return <div id={"lineup"}>
-      <h3>{teamPreview.injury_report.team_name} Lineups & Injuries</h3>
+      <h3>{teamPreview.injury_report.team_name} Results, Lineups & Injuries</h3>
+      <div>
+        <h4>Previous Results</h4>
+        {previous_results && previous_results.map(result => (
+            <div className={"previous-result"}>
+              <span className={"opponent"}>{result.opponent}</span>
+              <span className={"result"}> <span className={`result-indicator-${result.result}`}>{result.result}</span> <a href={result.box_score_link}>{result.score}</a></span>
+            </div>
+        ))}
+      </div>
+
       <div>
         <h4>Probable Lineup</h4>
         {lineup.PF && <div className={"lineup-player"}><span className={"lineup-position"}>PF:</span> {lineup.PF.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}
