@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState} from 'react';
 import './App.css';
 import axios from "axios";
+const stringHash = require("string-hash");
 
 interface ResponsePayload {
   team: TeamPreview,
@@ -79,6 +80,14 @@ function App() {
       setTeams(r.data)
     })
   }, [])
+
+  function injuryShowMore(e: any, hash: string) {
+    const elem = document.getElementById("desc-" + hash);
+    if (elem) { elem.style.display = '';}
+    const elemButton = document.getElementById("btn-" + hash);
+    if (elemButton) { elemButton.style.display = 'none';}
+    e.preventDefault(); return false;
+  }
 
   const loadPreview = (e: any) => {
     setLoading(true);
@@ -166,8 +175,8 @@ function App() {
         {injury_report && injury_report.injuries.map(pi => (
             <>
               <div className={"injury-player"}>
-                <span className={"injury-name"}>{pi.name}, {pi.position}</span> - <span className={"injury-status"}>{pi.status}</span>
-                {pi.description && <span className={"injury-description"}>{pi.description}</span>}
+                <span className={"injury-name"}>{pi.name}, {pi.position}</span> - <span className={"injury-status"}>{pi.status}</span> {pi.description && <a data-hash={stringHash(pi.name)} id={`btn-${stringHash(pi.name)}`} href={"#"} onClick={e => injuryShowMore(e, stringHash(pi.name))} className={"injury-more-link"}>more</a> }
+                {pi.description && <span style={{display: "none"}} id={`desc-${stringHash(pi.name)}`} className={"injury-description"}>{pi.description}</span>}
               </div>
             </>
         ))}
