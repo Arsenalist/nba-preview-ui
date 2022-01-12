@@ -157,7 +157,7 @@ function App() {
         {previous_results && previous_results.map(result => (
             <div className={"previous-result"}>
               <span className={"opponent"}>{result.opponent}</span>
-              <span className={"result"}> <span className={`result-indicator-${result.result}`}>{result.result}</span> <a href={result.box_score_link}>{result.score}</a></span>
+              <span className={"result"}> <span className={`result-indicator-${result.result}`}>{result.result}</span> <a target={"_blank"} href={result.box_score_link}>{result.score}</a></span>
             </div>
         ))}
       </div>
