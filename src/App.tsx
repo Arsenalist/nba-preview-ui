@@ -83,7 +83,7 @@ function App() {
 
   function injuryShowMore(e: any, hash: string) {
     const elem = document.getElementById("desc-" + hash);
-    if (elem) { elem.style.display = '';}
+    if (elem) { elem.style.display = 'block';}
     const elemButton = document.getElementById("btn-" + hash);
     if (elemButton) { elemButton.style.display = 'none';}
     e.preventDefault(); return false;
