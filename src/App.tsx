@@ -176,7 +176,7 @@ function App() {
             <>
               <div className={"injury-player"}>
                 <span className={"injury-name"}>{pi.name}, {pi.position}</span> - <span className={"injury-status"}>{pi.status}</span> {pi.description && <a data-hash={stringHash(pi.name)} id={`btn-${stringHash(pi.name)}`} href={"#"} onClick={e => injuryShowMore(e, stringHash(pi.name))} className={"injury-more-link"}>more</a> }
-                {pi.description && <span style={{display: "none"}} id={`desc-${stringHash(pi.name)}`} className={"injury-description"}>{pi.description}</span>}
+                {pi.description && <span id={`desc-${stringHash(pi.name)}`} className={"injury-description"}>{pi.description}</span>}
               </div>
             </>
         ))}
