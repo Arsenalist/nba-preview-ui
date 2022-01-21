@@ -171,7 +171,7 @@ function App() {
         {lineup.SG && <div className={"lineup-player"}><span className={"lineup-position"}>SG:</span> {lineup.SG.map((p: Player) => p.player.first_initial_and_last_name).join(", ")}</div>}
       </div>
       <div>
-        <h4>Injuries</h4>
+        {injury_report && injury_report.injuries.length !== 0 && <h4>Injuries</h4>}
         {injury_report && injury_report.injuries.map(pi => (
             <>
               <div className={"injury-player"}>
