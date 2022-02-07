@@ -60,6 +60,7 @@ interface TeamPreview {
 interface GameResult {
   opponent: string,
   opponent_logo_link: string,
+  at_vs: string,
   result: string,
   score: string,
   box_score_link: string
@@ -156,7 +157,7 @@ function App() {
         <h4>Previous Results</h4>
         {previous_results && previous_results.map(result => (
             <div className={"previous-result"}>
-              <span className={"opponent"}>{result.opponent}</span>
+              <span className={"opponent"}>{result.at_vs} {result.opponent}</span>
               <span className={"result"}> <span className={`result-indicator-${result.result}`}>{result.result}</span> <a target={"_blank"} href={result.box_score_link}>{result.score}</a></span>
             </div>
         ))}
